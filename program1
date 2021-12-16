@@ -1,0 +1,41 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include<stdlib.h>
+#include<locale.h>
+#include<time.h>
+
+int main()
+{
+	setlocale(LC_ALL, "Rus");
+	int n = 0;
+	int min=0, max=0 ;
+	char* mas = NULL;
+	FILE* file;
+	srand(time(NULL));
+	file = fopen("C:/Users/Катя/source/repos/laba2.2/laba2.2/input.txt", "w");
+
+	printf_s("Введите количество чисел n = ");
+	scanf_s("%d", &n);
+	fprintf(file, "%d\n", n);
+	
+	printf_s("Введите значение (от -128 до 127) min = ");
+	scanf_s("%d", &min);
+	fprintf(file, "%d\n", min);
+	printf_s("Введите значение (от -128 до 127) max = ");
+	scanf_s("%d", &max);
+	fprintf(file, "%d\n", max);
+
+
+	if ((max < min) || (n <= 0) )
+	{
+		printf("Ошибка: некорректные данные\n");
+		return 0;
+	}
+
+	for (int i = 0; i < n; i++)
+	{
+		char a = min + rand() % (max - min + 1);
+		fprintf(file, "%d\n", a);
+	}
+	return 0;
+}
