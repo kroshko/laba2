@@ -1,0 +1,168 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <locale.h>
+#include <time.h>
+
+void BubbleSort(char* a, int l)
+{
+	int i, j;
+	int tmp = 0;
+
+	for (i = 0; i < l; i++)
+	{
+		for (j = 0; j < l - i - 1; j++)
+		{
+			if (a[j] > a[j + 1])
+			{
+				tmp = a[j];
+				a[j] = a[j + 1];
+				a[j + 1] = tmp;
+			}
+		}
+	}
+}
+
+void Vstavkasort(char* a, int l)
+{
+	int i, j;
+	int tmp = 0;
+
+	for (i = 1; i < l; i++)
+	{
+		tmp = a[i];
+		for (j = i - 1; j >= 0; j--)
+		{
+			if (a[j] > tmp)
+			{
+				a[j + 1] = a[j];
+			}
+			else
+				break;
+		}
+		a[j + 1] = tmp;
+	}
+}
+
+void Qsort(char* mas, int l, int u)
+{
+	int i = l;
+	int j = u;
+
+	int tmp = 0;
+
+	int x = mas[(int)((l + u) / 2)];
+
+	do
+	{
+		while (mas[i] < x)
+			++i;
+		while (mas[j] > x)
+			--j;
+
+		if (i <= j)
+		{
+			tmp = mas[i];
+			mas[i] = mas[j];
+			mas[j] = tmp;
+			i++;
+			j--;
+		}
+	} while (i < j);
+
+	if (l < j)
+		Qsort(mas, l, j);
+	if (i < u)
+		Qsort(mas, i, u);
+}
+
+void Quicksort(char* a, int l)
+{
+	Qsort(a, 0, (l - 1));
+}
+
+int main()
+{
+	setlocale(LC_ALL, "Rus");
+	int n = 0, a = 0;
+
+	clock_t start,end;
+	double tim = 0.0;
+
+
+	printf_s("Команды:\n1 - Печать массива\n2 - Сортировка\n3 - Очистить массив\n4 - Завершить работу\n");
+
+	while (a != 4)
+	{ 
+		char* mas = NULL;
+		FILE* file = 0;
+		file = fopen("input.txt", "r");
+		fscanf_s(file, "%d", &n);
+		mas = (char*)malloc(n * sizeof(char));
+		for (int i = 0; i < n; i++)
+		{
+			fscanf_s(file, "%d", &mas[i]);
+
+		}
+
+		scanf_s("%d", &a);
+		if (a == 1)
+		{
+			for (int i = 0; i < n; i++)
+			{
+				printf_s("mas[%d]  = %d\n", i, mas[i]);
+			}
+		}
+		if (a == 2)
+		{
+			printf_s("Команды:\n1 - Пузырёк\n2 - Вставкой\n3 - Быстрая\n");
+			scanf_s("%d", &a);
+			if (a == 1)
+			{
+				start = clock();
+				BubbleSort(mas, n);
+				end = clock();
+				tim = (double)(end - start) / CLOCKS_PER_SEC;
+				printf_s("Время работы: %lf с\n", tim);
+			}
+			if (a == 2)
+			{
+				start = clock();
+				Vstavkasort(mas, n);
+				end = clock();
+				tim = (double)(end - start) / CLOCKS_PER_SEC;
+				printf_s("Время работы: %lf с\n", tim);
+			}
+			if (a == 3)
+			{
+				start = clock();
+				Quicksort(mas, n);
+				end = clock();
+				tim = (double)(end - start) / CLOCKS_PER_SEC;
+				printf_s("Время работы: %lf с\n", tim);
+			}
+		}
+
+
+
+		if (a == 3)
+		{
+			for (int i = 0; i < n; i++)
+			{
+				mas[i] = 0;
+			}
+		}
+
+		if (a == 4)
+		{
+			break;
+		}
+	
+	
+		printf_s("Введите число\n");
+	}
+
+	return 0;
+}
+
